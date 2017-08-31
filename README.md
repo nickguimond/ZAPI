@@ -1,5 +1,7 @@
 # ZAPI
 
+prereq: node 6.10
+
 save credential variable as gloabl var to be used in the module:
 
 global.__ZAPIcreds = [process.env.ZAPI_ACCESS_KEY, process.env.ZAPI_SECRET_KEY, process.env.ASSIGNEE];
