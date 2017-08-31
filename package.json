@@ -1,0 +1,32 @@
+{
+  "name": "zephyr_api",
+  "version": "0.0.1",
+  "description": "Node Js wrapper for Zephy for Jira Cloud API calls",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickguimond/ZAPI.git"
+  },
+  "keywords": [
+    "Zephyr",
+    "tests",
+    "zapi",
+    "zephyrapi",
+    "zephyr",
+    "api",
+    "testapi"
+  ],
+  "author": "nick guimond",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickguimond/ZAPI/issues"
+  },
+  "homepage": "https://github.com/nickguimond/ZAPI#readme",
+  "dependencies": {
+    "json-web-token": "^2.1.3",
+    "request": "^2.81.0"
+  }
+}
