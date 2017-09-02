@@ -60,17 +60,12 @@ function createPromiseCall(debug, params) {
 
 module.exports = {
 	getCycleIdFromCycleName: function(jiraProjectId, jiraProjectVersion, cycleName) {
-		callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/cycles/search?projectId=${jiraProjectId}&versionId=${jiraProjectVersion}`, 'text/plain', ...__ZAPIcreds).then(allCycles => {
+		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/cycles/search?projectId=${jiraProjectId}&versionId=${jiraProjectVersion}`, 'text/plain', ...__ZAPIcreds).then(allCycles => {
 			let currentCycleId = findCycleByName(JSON.parse(allCycles), cycleName);
 			if (currentCycleId) {
-				console.log(`{project: ${jiraProjectId}, version: ${jiraProjectVersion}, cycle: ${currentCycleId}}`);
-				return { project: jiraProjectId, version: jiraProjectVersion, cycle: currentCycleId };
+				return { projectId: jiraProjectId, versionId: jiraProjectVersion, id: currentCycleId };
 			} else {
-				console.log('Cycle doesn\'t exists, creating it now...');
-				module.exports.createNewCycle(jiraProjectId, jiraProjectVersion).then(newCycle => {
-					console.log(`New cycle created`);
-					return { project: jiraProjectId, version: jiraProjectVersion, cycle: newCycle.id };
-				});
+				return null;
 			}
 			function findCycleByName(allCycles, name) {
 				let id = false;
