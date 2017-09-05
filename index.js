@@ -105,16 +105,18 @@ module.exports = {
 	},
 	zqlSearch: function(query) {
 		return callZapiCloud('POST', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/zql/search?`, 'application/json', ...__ZAPIcreds, { 'zqlQuery': `${query}` }).then(searchResults => {
-			console.log(searchResults);
 			let result = {
 				totalTests: searchResults.totalCount,
 				tests: []
 			};
 			searchResults.searchObjectList.forEach(a => {
 				result.tests.push({
-					key: a.projectKey,
+					key: a.issueKey,
 					summary: a.issueSummary,
-					status: a.execution.status.name
+					status: a.execution.status.name,
+					desc: a.issueDescription,
+					executionId: a.execution.id,
+					issueId: a.execution.issueId
 				});
 			});
 			return result;
@@ -180,7 +182,7 @@ module.exports = {
 	getCyclesIssueIds: function(cycleId, versionId, projectId) {
 		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/cycle/${cycleId}?expand=executionSummaries&projectId=${projectId}&versionId=${versionId}`, 'text/plain', ...__ZAPIcreds);
 	},
-	getTestStep: function(issueId, testId, projectId) {
-		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${issueId}/${testId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds).then(step => JSON.parse(step));
+	getTestSteps: function(issueId, projectId) {
+		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${issueId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds).then(step => JSON.parse(step));
 	}
 };
