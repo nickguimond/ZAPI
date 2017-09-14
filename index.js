@@ -169,8 +169,9 @@ module.exports = {
 	},
 	deleteAllTestSteps: function(testId, projectId) {
 		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds).then(testSteps => {
+			console.log(testSteps);
 			JSON.parse(testSteps).forEach(a => {
-				callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${steps[i].id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(a => console.log(a));
+				return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(a => console.log(a));
 			});
 		});
 	},
