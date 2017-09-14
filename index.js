@@ -170,9 +170,19 @@ module.exports = {
 	deleteAllTestSteps: function(testId, projectId) {
 		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds).then(testSteps => {
 			console.log(testSteps);
-			JSON.parse(testSteps).forEach(a => {
-				return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(a => console.log(a));
-			});
+			// JSON.parse(testSteps).forEach(a => {
+			// 	// return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds);
+			// });
+			(function createStep() {
+				if (testSteps.length != 0) {
+					let step = testSteps.shift();
+					return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(d => {
+						return createStep();
+					});
+				} else {
+					console.log(`Updating steps completed.`);
+				}
+			})();
 		});
 	},
 	getServerInfo: function() {
