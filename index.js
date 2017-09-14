@@ -169,18 +169,15 @@ module.exports = {
 	},
 	deleteAllTestSteps: function(testId, projectId) {
 		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds).then(testSteps => {
-			console.log(testSteps);
-			// JSON.parse(testSteps).forEach(a => {
-			// 	// return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds);
-			// });
-			(function createStep() {
-				if (testSteps.length != 0) {
-					let step = testSteps.shift();
-					return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${a.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(d => {
-						return createStep();
+			let stepsArray = JSON.parse(testSteps);
+			(function deleteStep() {
+				if (stepsArray.length != 0) {
+					let step = stepsArray.shift();
+					return callZapiCloud('DELETE', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}/${step.id}?projectId=${projectId}`, 'application/text', ...__ZAPIcreds).then(d => {
+						return deleteStep();
 					});
 				} else {
-					console.log(`Updating steps completed.`);
+					return 'Deleted OK';
 				}
 			})();
 		});
