@@ -152,6 +152,10 @@ module.exports = {
 		let testStepData = { 'status': { 'id': status }, 'issueId': issueId, 'stepId': stepResultId, 'executionId': executionId };
 		return callZapiCloud('PUT', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/stepresult/${stepResultId}`, 'application/json', ...__ZAPIcreds, testStepData);
 	},
+	createNewTestStep: function(testStep, testData, expectedResult, testId, projectId) {
+		let testStepData = { "step": testStep, "data": testData, "result": expectedResult };
+		return callZapiCloud('POST', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/teststep/${testId}?projectId=${projectId}`, 'application/json', ...__ZAPIcreds, testStepData);
+	},
 	testStepUpdate: function(testStep, testData, expectedResult, stepNum, testId, projectId) {
 		let testStepData = {
 			'orderId': stepNum,
