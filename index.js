@@ -135,6 +135,10 @@ module.exports = {
 			return callZapiCloud('PUT', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/execution/${createExecution.execution.id}`, 'application/json', ...__ZAPIcreds, { 'status': { 'id': testStatus }, 'projectId': projectId, 'issueId': issueId, 'cycleId': cycleId, 'versionId': versionId });
 		});
 	},
+	executionStatusUpdate: function(projectId, cycleId, issueId, executionId, versionId, statusId) {
+		let payload = {"status":{"id":statusId},"id":executionId,"projectId":projectId,"issueId":issueId,"cycleId":cycleId,"versionId":versionId};		
+		return callZapiCloud('PUT', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/execution/${executionId}`, 'application/json', ...__ZAPIcreds, payload);
+	},
 	getExecutionStatuses: function() {
 		return callZapiCloud('GET', `https://prod-api.zephyr4jiracloud.com/connect/public/rest/api/1.0/execution/statuses`, 'application/json', ...__ZAPIcreds).then(getStatuses => JSON.parse(getStatuses).forEach(a => console.log(`${a.id} ${a.name} ${a.description}`)));
 	},
